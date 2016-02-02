@@ -6,9 +6,11 @@ module.exports = {
     this._responseCode = null;
     this._headers = null;
     this._data = null;
+    // this._statusCode = null; 
 
     this.writeHead = function(responseCode, headers) {
       this._responseCode = responseCode;
+      console.log('MY RESPONSE CODE IS ' + this._responseCode);
       this._headers = headers;
     }.bind(this);
 
