@@ -12,7 +12,8 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 // var http = require("http");
-
+var path = require("path");
+var url = require("url");
 var messages = [];
 
 
@@ -32,6 +33,18 @@ var requestHandler = function(request, response) {
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
   console.log("Serving request type " + request.method + " for url " + request.url);
+
+  var uri = url.parse(request.url).pathname; 
+
+  var okayPathNames = ['/classes/messages',
+    '/classes/room',
+    '/classes/room1'];
+
+  if ( okayPathNames.indexOf(uri) === -1 ) {
+    response.writeHead(404, {'Content-Type': 'text/plain'});
+    response.end();
+    return;
+  }
 
   // The outgoing status.
   var statusCode = 200;
