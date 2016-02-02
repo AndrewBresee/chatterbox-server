@@ -47,27 +47,14 @@ var requestHandler = function(request, response) {
 
   if (request.method === 'POST'){
     statusCode = 201;
-    if(response._postData !== undefined){
-      messages.push( request._postData );
-    }
+    request.on('data', function(data) {
+      messages.push(JSON.parse(data));
+    });
   }
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
   response.writeHead(statusCode, headers);
-
-
-  // var store = {
-  //   results: []
-  // };
-
-  // if(store.results.length === 0){
-  //   store.results.push(request._postData);  
-  // }
-
-
-
- 
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
