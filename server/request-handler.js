@@ -36,9 +36,13 @@ var requestHandler = function(request, response) {
 
   var uri = url.parse(request.url).pathname; 
 
-  var okayPathNames = ['/classes/messages',
+  var okayPathNames = [
+    '/',
+    '/classes/messages',
     '/classes/room',
     '/classes/room1'];
+    // '/?order=-createdAt',
+    // '/client/client/index.html?username=alexxis'];
 
   if ( okayPathNames.indexOf(uri) === -1 ) {
     response.writeHead(404, {'Content-Type': 'text/plain'});
@@ -91,7 +95,7 @@ var requestHandler = function(request, response) {
 var defaultCorsHeaders = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "access-control-allow-headers": "content-type, accept",
+  "access-control-allow-headers": "Origin, X-Requested-With, Content-Type, Accept",
   "access-control-max-age": 10 // Seconds.
 };
 
