@@ -65,6 +65,7 @@ var requestHandler = function(request, response) {
   if (request.method === 'POST'){
     statusCode = 201;
     request.on('data', function(data) {
+      console.log("data was posted!! ", JSON.parse(data));
       messages.push(JSON.parse(data));
     });
   }
