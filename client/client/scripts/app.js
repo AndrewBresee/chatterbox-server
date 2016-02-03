@@ -63,13 +63,18 @@ var app = {
       success: function(data) {
         // Don't bother if we have nothing to work with
         if (!data.results || !data.results.length) { return; }
-
+        console.log("WE'RE IN FETCH AND DATA IS - ", data.results);
         // Get the last message
         var mostRecentMessage = data.results[data.results.length-1];
         var displayedRoom = $('.chat span').first().data('roomname');
         app.stopSpinner();
+
+        console.log("MOST RECENT MESSAGE OBJECT ID - ", mostRecentMessage.objectId);
+        console.log("APP LAST MESSAGE ID - ", app.lastMessageId);
+        console.log("APP ROOMNAME - ", app.roomname);
+        console.log("DISPLAYED ROOM - ", displayedRoom);
         // Only bother updating the DOM if we have a new message
-        if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
+        //if (mostRecentMessage.objectId !== app.lastMessageId || app.roomname !== displayedRoom) {
           // Update the UI with the fetched rooms
           app.populateRooms(data.results);
 
@@ -78,7 +83,7 @@ var app = {
 
           // Store the ID of the most recent message
           app.lastMessageId = mostRecentMessage.objectId;
-        }
+        //}
       },
       error: function(data) {
         console.error('chatterbox: Failed to fetch messages');
@@ -97,6 +102,7 @@ var app = {
     app.stopSpinner();
     if (Array.isArray(results)) {
       // Add all fetched messages
+      console.log("IN POPULATE MESSAGES - RESULT", results);
       results.forEach(app.addMessage);
     }
 
@@ -136,6 +142,7 @@ var app = {
   addRoom: function(roomname) {
     // Prevent XSS by escaping with DOM methods
     var $option = $('<option/>').val(roomname).text(roomname);
+    console.log("TEST ROOM :", roomname);
     // Add to select
     app.$roomSelect.append($option);
   },
@@ -143,6 +150,8 @@ var app = {
   addMessage: function(data) {
     if (!data.roomname)
       data.roomname = 'lobby';
+
+    console.log("IN ADD MESSAGE");
 
     // Only add messages that are in our current room
     if (data.roomname === app.roomname) {
